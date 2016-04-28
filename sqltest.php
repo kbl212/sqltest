@@ -18,8 +18,7 @@ if (isset($_POST['author']) &&
     isset($_POST['title']) &&
     isset($_POST['category']) &&
     isset($_POST['year']) &&
-    isset($_POST['isbn'])
-   )
+    isset($_POST['isbn']))
     
 {
     $author = get_post($connection, 'author');
@@ -32,10 +31,10 @@ if (isset($_POST['author']) &&
         "('$author', '$title', '$category', '$year', '$isbn')";
     $result = $connection->query($query);
     if (!$result) echo "INSERT failed: $query<br>" .
-        $conn->error. "<br><br>";
+        $conn->error . "<br><br>";
 }
 
-echo <<<_END 
+echo <<<"_END"
 <form action="sqltest.php"
 method="post"><pre>
     Author <input type="text"
@@ -59,7 +58,7 @@ for ($j = 0; $j < $rows; ++$j)
     $result->data_seek($j);
     $row = $result->fetch_array(MYSQLI_NUM);
     
-    echo <<<_END
+    echo <<<"_END"
     <pre>
         Author $row[0]
         Title $row[1]
@@ -81,6 +80,5 @@ $connection->close();
 function get_post($connection, $var)
 {
     return $connection->real_escape_string($_POST[$var]);
-    
 }
 ?>
