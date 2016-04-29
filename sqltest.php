@@ -1,4 +1,4 @@
-<?php //sqltest.php
+<?php
 
 require_once 'login.php';
 $connection = new mysqli($host_name, $user_name, $password, $db);
@@ -10,7 +10,7 @@ if (isset($_POST['delete']) && isset($_POST['isbn']))
     $isbn = get_post($connection, 'isbn');
     $query = "DELETE FROM classics WHERE isbn='$isbn'";
     $result = $connection->query($query);
-    if (!$result) echo "DELETE failed: $query<br>".
+    if (!$result) echo "DELETE failed: $query<br>" .
         $connection->error . "<br><br>";
 }
 
@@ -31,21 +31,19 @@ if (isset($_POST['author']) &&
         "('$author', '$title', '$category', '$year', '$isbn')";
     $result = $connection->query($query);
     if (!$result) echo "INSERT failed: $query<br>" .
-        $conn->error . "<br><br>";
+        $connection->error . "<br><br>";
 }
 
-echo <<<"_END"
-<form action="sqltest.php"
-method="post"><pre>
-    Author <input type="text"
-    name="author">
+echo <<<_END
+<form action="sqltest.php" method="post"><pre>
+    Author <input type="text" name="author">
     Title <input type="text" name="title">
-    Category <input type="text" name="author">
+    Category <input type="text" name="category">
     Year <input type="text" name="year">
     ISBN <input type="text" name="isbn">
     <input type="submit" value="ADD RECORD">
     </pre></form>
-    _END;
+_END;
 
 $query = "SELECT * FROM classics";
 $result = $connection->query($query);
@@ -57,8 +55,7 @@ for ($j = 0; $j < $rows; ++$j)
 {
     $result->data_seek($j);
     $row = $result->fetch_array(MYSQLI_NUM);
-    
-    echo <<<"_END"
+    echo <<<_END
     <pre>
         Author $row[0]
         Title $row[1]
@@ -71,7 +68,8 @@ for ($j = 0; $j < $rows; ++$j)
     <input type="hidden" name="delete" value="yes">
     <input type="hidden" name="isbn" value="$row[4]">
     <input type="submit" value="DELETE RECORD"></form>
-    _END;
+_END;
+    
 }
 
 $result->close();
@@ -81,4 +79,5 @@ function get_post($connection, $var)
 {
     return $connection->real_escape_string($_POST[$var]);
 }
+
 ?>
